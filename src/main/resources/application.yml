@@ -1,0 +1,24 @@
+spring:
+  kafka:
+    listener.ack-mode: MANUAL_IMMEDIATE
+    consumer:
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: io.confluent.kafka.serializers.KafkaJsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    properties:
+      sasl.mechanism: PLAIN
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_PROPERTIES_USERNAME}" password="${KAFKA_PROPERTIES_PWD}";
+      bootstrap.servers: ${KAFKA_BOOTSTRAP_SERVER}
+      security.protocol: SASL_SSL
+      schema.registry.url: ${KAFKA_SCHEMA_REGISTRY_URL}
+      auth:
+        credentials.source: USER_INFO
+        user.info: ${KAFKA_AUTH_INFO}
+  mvc.pathmatch.matching-strategy: ant_path_matcher
+
+topic:
+  name: ${TOPIC}
